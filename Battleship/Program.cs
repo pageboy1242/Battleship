@@ -1,5 +1,6 @@
 ﻿using System;
 using Battleship.Model;
+using Battleship.test.Model;
 
 namespace Battleship
 {
@@ -7,14 +8,9 @@ namespace Battleship
     {
         static void Main(string[] args)
         {
-            var board = new Board();
-            var battleShip = new MyBattleship(3, 1, MyBattleship.ShipDirection.Left);
-            board.PlaceBattleShip(battleShip);
+            Game game = new Game(new ConsoleWriter());
 
-            var isHit = board.IsHit(1, 1);
-            isHit = board.IsHit(4, 2);
-
-            Console.Write(board.ToString());
+            game.GameStart();
         }
     }
 }

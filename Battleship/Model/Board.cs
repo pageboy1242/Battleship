@@ -7,15 +7,14 @@ namespace Battleship.Model
 {
     public class Board
     {
-        // TODO: Need something like this, but do I make it 8 or 9 or do I need more constants
         public const int BoardHeight = 9;
         public const int BoardWidth = 9;
 
         private readonly char[,] _grid;
 
-        private MyBattleship _battleship;
+        private Ship _battleship;
 
-        public MyBattleship Battleship => _battleship;
+        public Ship Battleship => _battleship;
 
         /// <summary>
         /// Creates and Initializes the player's board
@@ -47,33 +46,47 @@ namespace Battleship.Model
         public char[,] Grid => _grid;
 
         /// <summary>
-        /// Attempts to place a myBattleship on the board
+        /// Attempts to place a ship on the board
         /// </summary>
-        /// <param name="myBattleship"></param>
+        /// <param name="ship"></param>
         /// <returns></returns>
-        public bool PlaceBattleShip(MyBattleship myBattleship)
+        public bool PlaceBattleShip(Ship ship, ShipPlacement placement)
         {
-            if (myBattleship.X < MyBattleship.Size && myBattleship.Direction == MyBattleship.ShipDirection.Left)
+            // Ensure Coordinates are within range
+            if (placement.SternPoint.X < 1 || placement.SternPoint.X >= BoardWidth)
+            {
+                throw new ArgumentOutOfRangeException(nameof(placement), "x parameter must be between 1 and 8");
+            }
+
+            if (placement.SternPoint.Y < 1 || placement.SternPoint.Y >= BoardHeight)
+            {
+                throw new ArgumentOutOfRangeException(nameof(placement), "x parameter must be between 1 and 8");
+            }
+
+            // Ensure Ship direction is not outside the range of the board
+            if (placement.SternPoint.X < ship.Size && placement.Direction == Ship.ShipDirection.Left)
             {
                 return false;
             }
 
-            if (myBattleship.Y < MyBattleship.Size && myBattleship.Direction == MyBattleship.ShipDirection.Up)
+            if (placement.SternPoint.Y < ship.Size && placement.Direction == Ship.ShipDirection.Up)
             {
                 return false;
             }
 
-            if (myBattleship.X > (BoardWidth - MyBattleship.Size) && myBattleship.Direction == MyBattleship.ShipDirection.Right)
+            if (placement.SternPoint.X > (BoardWidth - ship.Size) && placement.Direction == Ship.ShipDirection.Right)
             {
                 return false;
             }
 
-            if (myBattleship.Y > (BoardHeight - MyBattleship.Size) && myBattleship.Direction == MyBattleship.ShipDirection.Down)
+            if (placement.SternPoint.Y > (BoardHeight - ship.Size) && placement.Direction == Ship.ShipDirection.Down)
             {
                 return false;
             }
 
-            _battleship = myBattleship;
+            ship.CalculateCoords(placement);
+
+            _battleship = ship;
 
             return true;
         }
@@ -91,8 +104,17 @@ namespace Battleship.Model
             _grid[x, y] = 'X';
 
             if (_battleship.IsCoordInShip(x, y))
+            {
+                _battleship.TryShot(x, y);
                 return true;
+            }
+               
             return false;
+        }
+
+        public bool IsAllShipsSunk()
+        {
+            return Battleship.IsSunk();
         }
 
         /// <summary>

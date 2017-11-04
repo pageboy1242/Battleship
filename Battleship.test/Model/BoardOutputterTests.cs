@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using Battleship.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,8 +10,9 @@ namespace Battleship.test.Model
     [TestClass]
     public class BoardOutputterTests
     {
-        private string _boardString;
-        private string _boardStringWithBattleShip1;
+        private readonly string _boardString;
+        private readonly string _boardStringWithBattleShip1;
+        private string _boardStringWithBattleShipWithHits1;
 
         public BoardOutputterTests()
         {
@@ -35,6 +37,17 @@ namespace Battleship.test.Model
                 "\t6\t \t \t \t \t \t \t \t \n" +
                 "\t7\t \t \t \t \t \t \t \t \n" +
                 "\t8\t \t \t \t \t \t \t \t \n";
+
+            _boardStringWithBattleShipWithHits1 =
+                "\t \tA\tB\tC\tD\tE\tF\tG\tH\n" +
+                "\t1\tX\tO\tO\t \t \t \t \tX\n" +
+                "\t2\t \t \t \t \t \t \t \t \n" +
+                "\t3\t \t \t \tX\t \t \t \t \n" +
+                "\t4\t \t \t \t \t \t \t \t \n" +
+                "\t5\t \t \t \t \t \t \t \t \n" +
+                "\t6\t \t \t \t \t \t \t \t \n" +
+                "\t7\t \t \t \t \t \t \tX\t \n" +
+                "\t8\tX\t \t \t \t \t \t \tX\n";
         }
 
         [TestMethod]
@@ -49,11 +62,31 @@ namespace Battleship.test.Model
         public void Board_TestDisplaysBattleShip()
         {
             var board = new Board();
-            var battleShip = new MyBattleship(3, 1, MyBattleship.ShipDirection.Left);
+            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Point(3, 1));
+            var battleShip = new Ship(3, "My Battleship");
 
-            board.PlaceBattleShip(battleShip);
+            board.PlaceBattleShip(battleShip, placement);
 
             Assert.AreEqual(_boardStringWithBattleShip1, board.ToString());
+        }
+
+        [TestMethod]
+        public void Board_TestDisplaysHits()
+        {
+            var board = new Board();
+            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Point(3, 1));
+            var battleShip = new Ship(3, "My Battleship");
+
+            board.PlaceBattleShip(battleShip, placement);
+
+            board.IsHit(1, 1);
+            board.IsHit(4, 3);
+            board.IsHit(8, 1);
+            board.IsHit(7, 7);
+            board.IsHit(1, 8);
+            board.IsHit(8, 8);
+
+            Assert.AreEqual(_boardStringWithBattleShipWithHits1, board.ToString());
         }
     }
 }
