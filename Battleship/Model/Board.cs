@@ -100,13 +100,13 @@ namespace Battleship.Model
         public bool IsHit(int x, int y)
         {
             // TODO: This is 2 actions
+            // TODO: Don't allow duplicate shots?
             // Capture the shot on the board
             _grid[x, y] = 'X';
 
             if (_battleship.IsCoordInShip(x, y))
             {
-                _battleship.TryShot(x, y);
-                return true;
+                return _battleship.ApplyShot(x, y);
             }
                
             return false;

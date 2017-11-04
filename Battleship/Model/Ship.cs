@@ -27,7 +27,7 @@ namespace Battleship.Model
 
         private Point[] _coords;
 
-        private bool[] hits;
+        private readonly bool[] hits;
         
         /// <summary>
         /// Checks if the supplied coordinate overlaps with the location of the battleship
@@ -40,7 +40,7 @@ namespace Battleship.Model
             return _coords.Any(t => t.X == x && t.Y == y);
         }
 
-        public bool TryShot(int x, int y)
+        public bool ApplyShot(int x, int y)
         {
             if(IsCoordInShip(x, y))
             {
@@ -98,7 +98,10 @@ namespace Battleship.Model
                     throw new ArgumentOutOfRangeException();
             }
         }
-
+        /// <summary>
+        /// Indicates whether or not the ship has been sunk, I.e. has taken the maximum number of direct hits
+        /// </summary>
+        /// <returns></returns>
         public bool IsSunk()
         {
             return hits.Aggregate(true, (current, hit) => current && hit);
