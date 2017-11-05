@@ -33,17 +33,23 @@ namespace Battleship.Model
             {
                 PlayerTakeTurn("Player 1", _player2Board);
                 if (_player2Board.IsAllShipsSunk())
+                {
+                    _consoleWriter.WriteLine("Player 2 yells 'You sank my battleship!!");
                     break;
+                }
 
                 PlayerTakeTurn("Player 2", _player1Board);
                 if (_player1Board.IsAllShipsSunk())
+                {
+                    _consoleWriter.WriteLine("Player 1 yells 'You sank my battleship!!");
                     break;
+                }
             }
         }
 
         public void WelcomeMessage()
         {
-            Console.Clear();
+            _consoleWriter.Clear();
             _consoleWriter.WriteLine("Welcome to Battleship\n");
         }
 
@@ -57,13 +63,28 @@ namespace Battleship.Model
 
             var boardOutputter = new BoardOutputter(playerBoard);
             _consoleWriter.Write(boardOutputter.ToString());
-            _consoleWriter.Write("Coordinates: ");
-            var input = Console.ReadLine();
-
-            var placement = InputHandler.ConvertInputToShipPlacement(input);
+            
             var battleShip = new Ship(3, "My Battleship");
 
-            playerBoard.PlaceBattleShip(battleShip, placement);
+            var message = "";
+            ShipPlacement placement;
+
+            do
+            {
+                if (message.Length > 0)
+                {
+                    _consoleWriter.WriteLine(message);    
+                }
+                _consoleWriter.Write("Coordinates: ");
+                var input = Console.ReadLine();
+                while ((placement = InputHandler.ConvertInputToShipPlacement(input, out message)) == null)
+                {
+                    _consoleWriter.WriteLine(message);
+                    _consoleWriter.Write("Coordinates: ");
+                    input = Console.ReadLine();
+                }
+
+            } while (!playerBoard.PlaceBattleShip(battleShip, placement, out message));
 
             _consoleWriter.Write(playerBoard.ToString());
         }
@@ -72,11 +93,25 @@ namespace Battleship.Model
         {
             _consoleWriter.WriteLine($"--- {playerName} ---");
             _consoleWriter.WriteLine("Enter Shot Coordinates (Eg. 'D 2'");
-
+            _consoleWriter.Write("Coordinates: ");
             var input = Console.ReadLine();
 
-            var shotCoords = InputHandler.ConvertInputToPoint(input);
-            opposingPlayerBoard.IsHit(shotCoords.X, shotCoords.Y);
+            Coordinates shotCoords;
+            while ((shotCoords = InputHandler.ConvertInputToCoordinates(input, out var message)) == null)
+            {
+                _consoleWriter.WriteLine(message);
+                _consoleWriter.Write("Coordinates: ");
+                input = Console.ReadLine();
+            }
+
+            if (opposingPlayerBoard.IsHit(shotCoords.X, shotCoords.Y))
+            {
+                _consoleWriter.WriteLine("Hit!");
+            }
+            else
+            {
+                _consoleWriter.WriteLine("Miss!");
+            }
 
             _consoleWriter.WriteLine(opposingPlayerBoard.ToString());
         }

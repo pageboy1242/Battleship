@@ -19,6 +19,7 @@ namespace Battleship.test.Model
 
             game.WelcomeMessage();
 
+            mockConsole.Verify(c=>  c.Clear());
             mockConsole.Verify(c => c.WriteLine("Welcome to Battleship\n"));
         }
     }

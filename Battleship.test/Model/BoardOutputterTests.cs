@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using Battleship.Model;
+﻿using Battleship.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleship.test.Model
@@ -62,11 +58,11 @@ namespace Battleship.test.Model
         public void Board_TestDisplaysBattleShip()
         {
             var board = new Board();
-            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Point(3, 1));
+            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(3, 1));
             var battleShip = new Ship(3, "My Battleship");
 
-            board.PlaceBattleShip(battleShip, placement);
-
+            Assert.IsTrue(board.PlaceBattleShip(battleShip, placement, out var message));
+            Assert.IsTrue(message.Length == 0);
             Assert.AreEqual(_boardStringWithBattleShip1, board.ToString());
         }
 
@@ -74,10 +70,10 @@ namespace Battleship.test.Model
         public void Board_TestDisplaysHits()
         {
             var board = new Board();
-            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Point(3, 1));
+            var placement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(3, 1));
             var battleShip = new Ship(3, "My Battleship");
 
-            board.PlaceBattleShip(battleShip, placement);
+            board.PlaceBattleShip(battleShip, placement, out var message);
 
             board.IsHit(1, 1);
             board.IsHit(4, 3);

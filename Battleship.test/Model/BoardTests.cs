@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using Battleship.Model;
+﻿using Battleship.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleship.test.Model
@@ -25,8 +23,8 @@ namespace Battleship.test.Model
         public void Board_TestPlaceBattleShip_InvalidLocation(int x, int y, Ship.ShipDirection shipDirection,
             bool result)
         {
-            var placement = new ShipPlacement(shipDirection, new Point(x, y));
-            Assert.AreEqual(result, _board.PlaceBattleShip(new Ship(3, "My Battleship"), placement));
+            var placement = new ShipPlacement(shipDirection, new Coordinates(x, y));
+            Assert.AreEqual(result, _board.PlaceBattleShip(new Ship(3, "My Battleship"), placement, out var message));
         }
 
         [DataTestMethod]
@@ -41,10 +39,10 @@ namespace Battleship.test.Model
         public void Board_TestPlaceBattleShip_ValidLocation(int x, int y, Ship.ShipDirection shipDirection,
             bool result)
         {
-            var placement = new ShipPlacement(shipDirection, new Point(x, y));
+            var placement = new ShipPlacement(shipDirection, new Coordinates(x, y));
             var battleShip = new Ship(3, "My Battleship");
 
-            Assert.AreEqual(result, _board.PlaceBattleShip(battleShip, placement));
+            Assert.AreEqual(result, _board.PlaceBattleShip(battleShip, placement, out var message));
             Assert.AreSame(battleShip, _board.Battleship);
         }
 
@@ -54,15 +52,14 @@ namespace Battleship.test.Model
         [DataRow(3, 5, true)]
         public void Board_TestIsHitRegistersValidHitsAndMisses(int x, int y, bool result)
         {
-            var placement = new ShipPlacement(Ship.ShipDirection.Down, new Point(3, 3));
+            var placement = new ShipPlacement(Ship.ShipDirection.Down, new Coordinates(3, 3));
             var battleShip = new Ship(3, "My Battleship");
-            _board.PlaceBattleShip(battleShip, placement);
+            _board.PlaceBattleShip(battleShip, placement, out var message);
 
             Assert.AreEqual(result, _board.IsHit(x, y));
         }
 
         [DataTestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         [DataRow(-1, 1, Ship.ShipDirection.Up)]
         [DataRow(9, 1, Ship.ShipDirection.Up)]
         [DataRow(1, -1, Ship.ShipDirection.Up)]
@@ -70,9 +67,10 @@ namespace Battleship.test.Model
         public void Board_Placement_XYCoordRange_Validation(int x, int y, Ship.ShipDirection shipDirection)
         {
             var battleShip = new Ship(3, "My Battleship");
-            _board.PlaceBattleShip(battleShip, new ShipPlacement(shipDirection, new Point(x, y)));
+            var result = _board.PlaceBattleShip(battleShip, new ShipPlacement(shipDirection, new Coordinates(x, y)), out var message);
 
-            Assert.Fail("Should not reach this point, an argumentOutOfRange exception should be thrown");
+            Assert.IsFalse(result);
+            Assert.IsTrue(message.Length > 0);
         }
     }
 }

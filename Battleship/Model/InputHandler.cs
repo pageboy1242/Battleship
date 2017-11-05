@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Battleship.Model
 {
     public static class InputHandler
     {
-        public static ShipPlacement ConvertInputToShipPlacement(string input)
+        public static ShipPlacement ConvertInputToShipPlacement(string input, out string message)
         {
+            message = "";
             // Validate input
             var msg = ValidatePlacementInput(input);
             if (msg.Length != 0)
             {
-                throw new ArgumentException(msg);
+                message = msg;
+                return null;
             }
 
             var columnChar = input[0];
@@ -45,7 +44,7 @@ namespace Battleship.Model
                     throw new ArgumentOutOfRangeException(nameof(input), "Direction must be one of 'U','D','L', or 'R'");
             }
 
-            return new ShipPlacement(direction, new Point(x, y));
+            return new ShipPlacement(direction, new Coordinates(x, y));
         }
 
         /// <summary>
@@ -69,15 +68,40 @@ namespace Battleship.Model
             return message;
         }
 
-        public static Point ConvertInputToPoint(string input)
+        public static Coordinates ConvertInputToCoordinates(string input, out string message)
         {
+            message = "";
+            // Validate input
+            var msg = ValidateCoordinateInput(input);
+            if (msg.Length != 0)
+            {
+                message = msg;
+                return null;
+            }
+
             var columnChar = input[0];
             var rowChar = input[2];
 
             var x = columnChar - 64;
             var y = rowChar - 48;
 
-            return new Point(x, y);
+            return new Coordinates(x, y);
+        }
+
+        private static string ValidateCoordinateInput(string input)
+        {
+            var message = "";
+
+            var regex = @"^[A-H] [1-8]";
+
+            Match match = Regex.Match(input, regex);
+
+            if (!match.Success)
+            {
+                message = "Please enter coordinates using the following rules [A-H] [1-8] (Eg. 'B 2').";
+            }
+
+            return message;
         }
     }
 }

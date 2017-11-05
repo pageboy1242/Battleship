@@ -7,6 +7,10 @@ namespace Battleship.Model
 {
     public class ConsoleWriter : IConsoleWriter
     {
+        public void Clear()
+        {
+            Console.Clear();    
+        }
 
         public void Write(string format, params object[] args)
         {

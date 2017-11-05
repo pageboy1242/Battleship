@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Text;
 
 namespace Battleship.Model
 {
@@ -50,40 +47,33 @@ namespace Battleship.Model
         /// </summary>
         /// <param name="ship"></param>
         /// <returns></returns>
-        public bool PlaceBattleShip(Ship ship, ShipPlacement placement)
+        public bool PlaceBattleShip(Ship ship, ShipPlacement placement, out string message)
         {
+            message = "";
+
             // Ensure Coordinates are within range
             if (placement.SternPoint.X < 1 || placement.SternPoint.X >= BoardWidth)
             {
-                throw new ArgumentOutOfRangeException(nameof(placement), "x parameter must be between 1 and 8");
+                message = $"x parameter must be between 1 and {BoardWidth - 1}";
+                return false;
             }
 
             if (placement.SternPoint.Y < 1 || placement.SternPoint.Y >= BoardHeight)
             {
-                throw new ArgumentOutOfRangeException(nameof(placement), "x parameter must be between 1 and 8");
+                message = $"x parameter must be between 1 and {BoardHeight - 1}";
+                return false;
             }
 
             // Ensure Ship direction is not outside the range of the board
-            if (placement.SternPoint.X < ship.Size && placement.Direction == Ship.ShipDirection.Left)
+            if ((placement.SternPoint.X < ship.Size && placement.Direction == Ship.ShipDirection.Left) ||
+                (placement.SternPoint.Y < ship.Size && placement.Direction == Ship.ShipDirection.Up) ||
+                (placement.SternPoint.X > (BoardWidth - ship.Size) && placement.Direction == Ship.ShipDirection.Right) ||
+                (placement.SternPoint.Y > (BoardHeight - ship.Size) && placement.Direction == Ship.ShipDirection.Down))
             {
+                message = "Ship Placement is outside of the boundaries of the board";
                 return false;
             }
-
-            if (placement.SternPoint.Y < ship.Size && placement.Direction == Ship.ShipDirection.Up)
-            {
-                return false;
-            }
-
-            if (placement.SternPoint.X > (BoardWidth - ship.Size) && placement.Direction == Ship.ShipDirection.Right)
-            {
-                return false;
-            }
-
-            if (placement.SternPoint.Y > (BoardHeight - ship.Size) && placement.Direction == Ship.ShipDirection.Down)
-            {
-                return false;
-            }
-
+            
             ship.CalculateCoords(placement);
 
             _battleship = ship;

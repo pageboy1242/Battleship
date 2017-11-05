@@ -7,18 +7,22 @@ namespace Battleship.test.Model
     [TestClass]
     public class InputHandlerTests
     {
-        [TestMethod]
-        public void InputHandler_TestConvertInputToShipPlacement_HappyPath()
+        [DataTestMethod]
+        [DataRow("E 4 D", 5, 4, Ship.ShipDirection.Down)]
+        [DataRow("E 4 U", 5, 4, Ship.ShipDirection.Up)]
+        [DataRow("E 4 L", 5, 4, Ship.ShipDirection.Left)]
+        [DataRow("E 4 R", 5, 4, Ship.ShipDirection.Right)]
+        public void InputHandler_TestConvertInputToShipPlacement_HappyPath(string input, int x, int y, Ship.ShipDirection expectedShipDirection)
         {
-            var placement = InputHandler.ConvertInputToShipPlacement("E 4 D");
+            var placement = InputHandler.ConvertInputToShipPlacement(input, out var message);
 
-            Assert.AreEqual(Ship.ShipDirection.Down, placement.Direction);
-            Assert.AreEqual(5, placement.SternPoint.X);
-            Assert.AreEqual(4, placement.SternPoint.Y);
+            Assert.IsTrue(message.Length == 0);
+            Assert.AreEqual(expectedShipDirection, placement.Direction);
+            Assert.AreEqual(x, placement.SternPoint.X);
+            Assert.AreEqual(y, placement.SternPoint.Y);
         }
 
         [DataTestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         [DataRow("")]
         [DataRow("A")]
         [DataRow("A 1")]
@@ -27,7 +31,38 @@ namespace Battleship.test.Model
         [DataRow("5 5 U")]
         public void InputHandler_TestConvertInputToShipPlacement_InvalidInput(string input)
         {
-            var placement = InputHandler.ConvertInputToShipPlacement(input);
+            var placement = InputHandler.ConvertInputToShipPlacement(input, out var message);
+
+            Assert.IsNull(placement);
+            Assert.AreEqual("Please enter coordinates using the following rules [A-H] [1-8] [U,D,L,R] (Eg. 'B 2 R').",
+                message);
+        }
+
+        [TestMethod]
+        public void InputHandler_TestConvertInputToCoordinates_HappyPath()
+        {
+            var coords = InputHandler.ConvertInputToCoordinates("E 4", out var message);
+
+            Assert.IsTrue(message.Length == 0);
+            
+            Assert.AreEqual(5, coords.X);
+            Assert.AreEqual(4, coords.Y);
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("A")]
+        [DataRow("A ")]
+        [DataRow("A 4 G")]
+        [DataRow("asdf")]
+        [DataRow("5 5 U")]
+        public void InputHandler_TestConvertInputToCoordinates_InvalidInput(string input)
+        {
+            var placement = InputHandler.ConvertInputToShipPlacement(input, out var message);
+
+            Assert.IsNull(placement);
+            Assert.AreEqual("Please enter coordinates using the following rules [A-H] [1-8] [U,D,L,R] (Eg. 'B 2 R').",
+                message);
         }
 
     }

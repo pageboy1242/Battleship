@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 
 namespace Battleship.Model
@@ -25,7 +24,7 @@ namespace Battleship.Model
 
         public string Name { get; }
 
-        private Point[] _coords;
+        private Coordinates[] _coords;
 
         private readonly bool[] hits;
         
@@ -61,38 +60,29 @@ namespace Battleship.Model
             var x = placement.SternPoint.X;
             var y = placement.SternPoint.Y;
 
-            _coords = new Point[Size];
+            _coords = new Coordinates[Size];
 
             // Initial Point denotes the Stern
-            _coords[0].X = x;
-            _coords[0].Y = y;
+            _coords[0] = new Coordinates(x , y);
 
-            //TODO: Convert to algebraic line functions?
+            //TODO: Convert to loops to support multiple ships
             switch (placement.Direction)
             {
                 case ShipDirection.Up:
-                    _coords[1].X = x;
-                    _coords[1].Y = y - 1;
-                    _coords[2].X = x;
-                    _coords[2].Y = y - 2;
+                    _coords[1] = new Coordinates(x, y - 1);
+                    _coords[2] = new Coordinates(x, y - 2);
                     break;
                 case ShipDirection.Down:
-                    _coords[1].X = x;
-                    _coords[1].Y = y + 1;
-                    _coords[2].X = x;
-                    _coords[2].Y = y + 2;
+                    _coords[1] = new Coordinates(x, y + 1);
+                    _coords[2] = new Coordinates(x, y + 2);
                     break;
                 case ShipDirection.Left:
-                    _coords[1].X = x - 1;
-                    _coords[1].Y = y;
-                    _coords[2].X = x - 2;
-                    _coords[2].Y = y;
+                    _coords[1] = new Coordinates(x - 1, y);
+                    _coords[2] = new Coordinates(x - 2, y);
                     break;
                 case ShipDirection.Right:
-                    _coords[1].X = x + 1;
-                    _coords[1].Y = y;
-                    _coords[2].X = x + 2;
-                    _coords[2].Y = y;
+                    _coords[1] = new Coordinates(x + 1, y);
+                    _coords[2] = new Coordinates(x + 2, y);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
