@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Battleship.Interfaces
+﻿namespace Battleship.Interfaces
 {
     public interface IConsoleWriter
     {

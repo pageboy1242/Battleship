@@ -21,8 +21,8 @@ namespace Battleship.Model
             var directionChar = input[4];
 
             // Convert the column to a X coordinate
-            var x = ((int)columnChar) - 64;
-            var y = ((int)rowChar) - 48;
+            var x = columnChar - 64;
+            var y = rowChar - 48;
 
             Ship.ShipDirection direction;
 
@@ -56,6 +56,7 @@ namespace Battleship.Model
         {
             var message = "";
 
+            // TODO: Build this dynamically based on the size of the board
             var regex = @"^[A-H] [1-8] [U,D,L,R]$";
 
             Match match = Regex.Match(input, regex);

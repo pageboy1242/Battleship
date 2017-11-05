@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Battleship.Interfaces;
+﻿using Battleship.Interfaces;
 
 namespace Battleship.Model
 {
@@ -64,8 +61,7 @@ namespace Battleship.Model
             _consoleWriter.WriteLine("Direction can be U, D, L, R (Up, Down, Left, Right)");
             _consoleWriter.WriteLine("For example 'F 4 R'");
 
-            var boardOutputter = new BoardOutputter(playerBoard);
-            _consoleWriter.Write(boardOutputter.ToString());
+           _consoleWriter.Write(playerBoard.ToString());
             
             var battleShip = new Ship(3, "My Battleship");
 
@@ -105,14 +101,7 @@ namespace Battleship.Model
            
             var shotCoords = GetShotCoords();
 
-            if (opposingPlayerBoard.IsHit(shotCoords.X, shotCoords.Y))
-            {
-                _consoleWriter.WriteLine("Hit!");
-            }
-            else
-            {
-                _consoleWriter.WriteLine("Miss!");
-            }
+            _consoleWriter.WriteLine(opposingPlayerBoard.ApplyShot(shotCoords.X, shotCoords.Y) ? "Hit!" : "Miss!");
 
             _consoleWriter.WriteLine(opposingPlayerBoard.ToString());
         }

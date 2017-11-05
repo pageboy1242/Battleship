@@ -8,8 +8,8 @@ namespace Battleship.test.Model
     {
         private readonly string _boardString;
         private readonly string _boardStringWithBattleShip1;
-        private string _boardStringWithBattleShipWithHits1;
-
+        private readonly string _boardStringWithBattleShipWithHits1;
+       
         public BoardOutputterTests()
         {
             // TODO: Stringbuilder
@@ -50,7 +50,7 @@ namespace Battleship.test.Model
         public void Board_TestInitializeBoard()
         {
             var board = new Board();
-
+            
             Assert.AreEqual(_boardString, board.ToString());
         }
 
@@ -60,7 +60,7 @@ namespace Battleship.test.Model
             var board = new Board();
             var placement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(3, 1));
             var battleShip = new Ship(3, "My Battleship");
-
+            
             Assert.IsTrue(board.PlaceBattleShip(battleShip, placement, out var message));
             Assert.IsTrue(message.Length == 0);
             Assert.AreEqual(_boardStringWithBattleShip1, board.ToString());
@@ -72,15 +72,17 @@ namespace Battleship.test.Model
             var board = new Board();
             var placement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(3, 1));
             var battleShip = new Ship(3, "My Battleship");
-
+            
             board.PlaceBattleShip(battleShip, placement, out var message);
 
-            board.IsHit(1, 1);
-            board.IsHit(4, 3);
-            board.IsHit(8, 1);
-            board.IsHit(7, 7);
-            board.IsHit(1, 8);
-            board.IsHit(8, 8);
+            Assert.IsTrue(message.Length == 0);
+
+            board.ApplyShot(1, 1);
+            board.ApplyShot(4, 3);
+            board.ApplyShot(8, 1);
+            board.ApplyShot(7, 7);
+            board.ApplyShot(1, 8);
+            board.ApplyShot(8, 8);
 
             Assert.AreEqual(_boardStringWithBattleShipWithHits1, board.ToString());
         }

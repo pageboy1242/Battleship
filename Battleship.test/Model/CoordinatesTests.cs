@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Battleship.Model;
+﻿using Battleship.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleship.test.Model

@@ -1,5 +1,4 @@
-﻿using System;
-using Battleship.Model;
+﻿using Battleship.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleship.test.Model

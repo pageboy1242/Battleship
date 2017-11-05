@@ -6,9 +6,9 @@ namespace Battleship.test.Model
     [TestClass]
     public class ShipTests
     {
-        private Board testBoard;
-        private Ship testShip;
-        private ShipPlacement testPlacement;
+        private Board _testBoard;
+        private readonly Ship testShip;
+        private ShipPlacement _testPlacement;
 
         public ShipTests()
         {
@@ -18,7 +18,7 @@ namespace Battleship.test.Model
         [TestInitialize]
         public void Setup()
         {
-            testBoard = new Board();
+            _testBoard = new Board();
         }
 
         [TestMethod]
@@ -40,34 +40,34 @@ namespace Battleship.test.Model
             var battleShip = new Ship(3, "My Battleship");
 
             var placement = new ShipPlacement(direction, new Coordinates(x, y));
-            testBoard.PlaceBattleShip(battleShip, placement, out var message);
-
+            _testBoard.PlaceBattleShip(battleShip, placement, out var message);
+            Assert.IsTrue(message.Length == 0);
             Assert.AreEqual(result, battleShip.IsCoordInShip(i, j));
         }
 
         [TestMethod]
         public void Battleship_IsSunkTest()
         {
-            testPlacement = new ShipPlacement(Ship.ShipDirection.Down, new Coordinates(6, 1));
-            testBoard.PlaceBattleShip(testShip, testPlacement, out var message);
+            _testPlacement = new ShipPlacement(Ship.ShipDirection.Down, new Coordinates(6, 1));
+            _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);
 
             // Verify ship is not sunk as no shots have been fired
-            Assert.IsFalse(testBoard.Battleship.IsSunk());
+            Assert.IsFalse(_testBoard.Battleship.IsSunk());
 
             // Apply 3 direct hits
-            Assert.IsTrue(testBoard.IsHit(6, 1));
-            Assert.IsTrue(testBoard.IsHit(6, 2));
-            Assert.IsTrue(testBoard.IsHit(6, 3));
+            Assert.IsTrue(_testBoard.ApplyShot(6, 1));
+            Assert.IsTrue(_testBoard.ApplyShot(6, 2));
+            Assert.IsTrue(_testBoard.ApplyShot(6, 3));
 
             // Verify ship is sunk
-            Assert.IsTrue(testBoard.Battleship.IsSunk());
+            Assert.IsTrue(_testBoard.Battleship.IsSunk());
         }
 
         [TestMethod]
         public void Ship_ApplyShot_VerifyValidAndInvalidShots()
         {
-            testPlacement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(8, 6));
-            testBoard.PlaceBattleShip(testShip, testPlacement, out var message);
+            _testPlacement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(8, 6));
+            _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);
 
             // Valid hit coords would be (8,6),(7,6),(6,6)  
             Assert.IsFalse(testShip.ApplyShot(6, 3));

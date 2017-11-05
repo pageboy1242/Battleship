@@ -17,7 +17,7 @@ namespace Battleship.Model
         {
             Size = size;
             Name = name;
-            hits = new bool[Size];
+            _hits = new bool[Size];
         }
 
         public int Size { get; }
@@ -26,7 +26,7 @@ namespace Battleship.Model
 
         private Coordinates[] _coords;
 
-        private readonly bool[] hits;
+        private readonly bool[] _hits;
         
         /// <summary>
         /// Checks if the supplied coordinate overlaps with the location of the battleship
@@ -47,7 +47,7 @@ namespace Battleship.Model
                 {
                     if (_coords[i].X == x && _coords[i].Y == y)
                     {
-                        hits[i] = true;
+                        _hits[i] = true;
                     }
                 }
                 return true;
@@ -94,7 +94,7 @@ namespace Battleship.Model
         /// <returns></returns>
         public bool IsSunk()
         {
-            return hits.Aggregate(true, (current, hit) => current && hit);
+            return _hits.Aggregate(true, (current, hit) => current && hit);
         }
     }
 }

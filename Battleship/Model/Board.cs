@@ -46,6 +46,8 @@ namespace Battleship.Model
         /// Attempts to place a ship on the board
         /// </summary>
         /// <param name="ship"></param>
+        /// <param name="placement"></param>
+        /// <param name="message"></param>
         /// <returns></returns>
         public bool PlaceBattleShip(Ship ship, ShipPlacement placement, out string message)
         {
@@ -82,24 +84,17 @@ namespace Battleship.Model
         }
 
         /// <summary>
-        /// IsHit represents a shot from the other player
+        /// ApplyShot represents a shot from the other player
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>true if was a hit, false otherwise</returns>
-        public bool IsHit(int x, int y)
+        public bool ApplyShot(int x, int y)
         {
-            // TODO: This is 2 actions
-            // TODO: Don't allow duplicate shots?
             // Capture the shot on the board
             _grid[x, y] = 'X';
 
-            if (_battleship.IsCoordInShip(x, y))
-            {
-                return _battleship.ApplyShot(x, y);
-            }
-               
-            return false;
+           return _battleship.ApplyShot(x, y);
         }
 
         public bool IsAllShipsSunk()

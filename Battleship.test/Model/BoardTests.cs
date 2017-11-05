@@ -6,7 +6,7 @@ namespace Battleship.test.Model
     [TestClass]
     public class BoardTests
     {
-        private Board _board;
+        private readonly Board _board;
 
         public BoardTests()
         {
@@ -25,6 +25,7 @@ namespace Battleship.test.Model
         {
             var placement = new ShipPlacement(shipDirection, new Coordinates(x, y));
             Assert.AreEqual(result, _board.PlaceBattleShip(new Ship(3, "My Battleship"), placement, out var message));
+            Assert.IsTrue(message.Length > 0);
         }
 
         [DataTestMethod]
@@ -44,6 +45,7 @@ namespace Battleship.test.Model
 
             Assert.AreEqual(result, _board.PlaceBattleShip(battleShip, placement, out var message));
             Assert.AreSame(battleShip, _board.Battleship);
+            Assert.IsTrue(message.Length == 0);
         }
 
         [DataTestMethod]
@@ -55,8 +57,8 @@ namespace Battleship.test.Model
             var placement = new ShipPlacement(Ship.ShipDirection.Down, new Coordinates(3, 3));
             var battleShip = new Ship(3, "My Battleship");
             _board.PlaceBattleShip(battleShip, placement, out var message);
-
-            Assert.AreEqual(result, _board.IsHit(x, y));
+            Assert.IsTrue(message.Length == 0);
+            Assert.AreEqual(result, _board.ApplyShot(x, y));
         }
 
         [DataTestMethod]

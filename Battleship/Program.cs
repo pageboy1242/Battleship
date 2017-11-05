@@ -1,11 +1,10 @@
-﻿using System;
-using Battleship.Model;
+﻿using Battleship.Model;
 
 namespace Battleship
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Game game = new Game(new ConsoleWriter());
 
