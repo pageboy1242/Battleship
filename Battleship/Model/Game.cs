@@ -96,8 +96,7 @@ namespace Battleship.Model
         public void PlayerTakeTurn(string playerName, Board opposingPlayerBoard)
         {
             _consoleWriter.WriteLine($"--- {playerName} ---");
-            _consoleWriter.WriteLine("Enter Shot Coordinates (Eg. 'D 2'");
-            _consoleWriter.Write("Coordinates: ");
+            _consoleWriter.WriteLine("Enter Shot Coordinates (Eg. 'D 2')");
            
             var shotCoords = GetShotCoords();
 
