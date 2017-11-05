@@ -21,5 +21,10 @@ namespace Battleship.Model
         {
             Console.WriteLine(format, args);
         }
+
+        public string ReadLine()
+        {
+            return Console.ReadLine();
+        }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Battleship.Interfaces;
-using Battleship.test.Model;
 
 namespace Battleship.Model
 {
@@ -34,14 +33,14 @@ namespace Battleship.Model
                 PlayerTakeTurn("Player 1", _player2Board);
                 if (_player2Board.IsAllShipsSunk())
                 {
-                    _consoleWriter.WriteLine("Player 2 yells 'You sank my battleship!!");
+                    _consoleWriter.WriteLine("Player 2 yells 'You sank my battleship!!'");
                     break;
                 }
 
                 PlayerTakeTurn("Player 2", _player1Board);
                 if (_player1Board.IsAllShipsSunk())
                 {
-                    _consoleWriter.WriteLine("Player 1 yells 'You sank my battleship!!");
+                    _consoleWriter.WriteLine("Player 1 yells 'You sank my battleship!!'");
                     break;
                 }
             }
@@ -52,7 +51,11 @@ namespace Battleship.Model
             _consoleWriter.Clear();
             _consoleWriter.WriteLine("Welcome to Battleship\n");
         }
-
+        /// <summary>
+        /// Method to setup the player's board and allow player to place their battleship
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="playerBoard"></param>
         public void PlayerBoardSetup(string playerName, Board playerBoard)
         {
             _consoleWriter.WriteLine($"--- {playerName} ---");
@@ -75,34 +78,32 @@ namespace Battleship.Model
                 {
                     _consoleWriter.WriteLine(message);    
                 }
-                _consoleWriter.Write("Coordinates: ");
-                var input = Console.ReadLine();
-                while ((placement = InputHandler.ConvertInputToShipPlacement(input, out message)) == null)
+                string input;
+                do
                 {
-                    _consoleWriter.WriteLine(message);
+                    if (message.Length > 0)
+                        _consoleWriter.WriteLine(message);
+
                     _consoleWriter.Write("Coordinates: ");
-                    input = Console.ReadLine();
-                }
+                    input = _consoleWriter.ReadLine();
+                } while ((placement = InputHandler.ConvertInputToShipPlacement(input, out message)) == null);
 
             } while (!playerBoard.PlaceBattleShip(battleShip, placement, out message));
 
             _consoleWriter.Write(playerBoard.ToString());
         }
-
+        /// <summary>
+        /// Repesents a Player's turn
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="opposingPlayerBoard"></param>
         public void PlayerTakeTurn(string playerName, Board opposingPlayerBoard)
         {
             _consoleWriter.WriteLine($"--- {playerName} ---");
             _consoleWriter.WriteLine("Enter Shot Coordinates (Eg. 'D 2'");
             _consoleWriter.Write("Coordinates: ");
-            var input = Console.ReadLine();
-
-            Coordinates shotCoords;
-            while ((shotCoords = InputHandler.ConvertInputToCoordinates(input, out var message)) == null)
-            {
-                _consoleWriter.WriteLine(message);
-                _consoleWriter.Write("Coordinates: ");
-                input = Console.ReadLine();
-            }
+           
+            var shotCoords = GetShotCoords();
 
             if (opposingPlayerBoard.IsHit(shotCoords.X, shotCoords.Y))
             {
@@ -114,6 +115,27 @@ namespace Battleship.Model
             }
 
             _consoleWriter.WriteLine(opposingPlayerBoard.ToString());
+        }
+        /// <summary>
+        /// Reads coords from console and converts them to a coordinate object
+        /// </summary>
+        /// <returns></returns>
+        public Coordinates GetShotCoords()
+        {
+            string message = "";
+            string input;
+
+            Coordinates shotCoords;
+            do
+            {
+                if(message.Length > 0)
+                    _consoleWriter.WriteLine(message);
+
+                _consoleWriter.Write("Coordinates: ");
+                input = _consoleWriter.ReadLine();
+            }while ((shotCoords = InputHandler.ConvertInputToCoordinates(input, out message)) == null);
+
+            return shotCoords;
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Battleship.Model;
+﻿using System.Text;
 
-namespace Battleship.test.Model
+namespace Battleship.Model
 {
     /// <summary>
     /// Outputter class to allow for other data output formats of the game board (eg. JSON, HTML etc.)

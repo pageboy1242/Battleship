@@ -1,6 +1,5 @@
 ﻿using System;
 using Battleship.Model;
-using Battleship.test.Model;
 
 namespace Battleship
 {
