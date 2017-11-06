@@ -1,5 +1,8 @@
 ﻿namespace Battleship.Model
 {
+    /// <summary>
+    /// Represents x, y Coordinates for playing the game
+    /// </summary>
     public class Coordinates
     {
         public Coordinates()

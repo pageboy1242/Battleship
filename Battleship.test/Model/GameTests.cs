@@ -20,18 +20,16 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Game_TestWelcomeMessage()
+        public void WelcomeMessage_ShouldDisplayWelcomeMessage()
         {
             _game.WelcomeMessage();
 
             _mockConsole.Verify(c => c.Clear());
             _mockConsole.Verify(c => c.WriteLine("Welcome to Battleship\n"));
         }
-
         
-
         [TestMethod]
-        public void Game_TestGameStart_Player1Wins()
+        public void GameStart_ShouldDisplayGameMessage_WhenPlayer1Wins()
         {
             _mockConsole.SetupSequence(c => c.ReadLine())
                 .Returns("H 1 L")
@@ -50,7 +48,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Game_TestGameStart_Player2Wins()
+        public void GameStart_ShouldDisplayGameMessage_WhenPlayer2Wins()
         {
             _mockConsole.SetupSequence(c => c.ReadLine())
                 .Returns("A 1 D")

@@ -3,6 +3,9 @@ using Battleship.Interfaces;
 
 namespace Battleship.Model
 {
+    /// <summary>
+    /// Concrete implementation of the console writer
+    /// </summary>
     public class ConsoleWriter : IConsoleWriter
     {
         public void Clear()

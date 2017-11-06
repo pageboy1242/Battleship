@@ -40,6 +40,9 @@ namespace Battleship.Model
             }
         }
 
+        /// <summary>
+        /// Represents the playing area
+        /// </summary>
         public char[,] Grid => _grid;
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace Battleship.Model
         /// <param name="ship"></param>
         /// <param name="placement"></param>
         /// <param name="message"></param>
-        /// <returns></returns>
+        /// <returns>true if ship can be placed, false otherwise</returns>
         public bool PlaceBattleShip(Ship ship, ShipPlacement placement, out string message)
         {
             message = "";
@@ -105,7 +108,6 @@ namespace Battleship.Model
         /// <summary>
         /// Convert the game grid to a console printable board
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

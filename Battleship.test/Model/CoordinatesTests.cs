@@ -7,7 +7,7 @@ namespace Battleship.test.Model
     public class CoordinatesTests
     {
         [TestMethod]
-        public void TestDefaultConstructor()
+        public void DefaultConstructor_ShouldInitializeCoordsToZero()
         {
             var coords = new Coordinates();
 
@@ -16,7 +16,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void TestConstructor()
+        public void Constructor_ShouldSetCoordsToSpecifiedParams()
         {
             var coords = new Coordinates(4, 5);
 

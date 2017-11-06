@@ -50,7 +50,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Board_TestInitializeBoard()
+        public void ToString_ShouldReturnExpectedBoardString_WhenInstantiated()
         {
             var board = new Board();
 
@@ -58,7 +58,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Board_TestDisplaysBattleShip()
+        public void ToString_ShouldDisplayShip_WhenShipHasBeenSuccessfullyPlaced()
         {
             var board = new Board();
             var placement = new ShipPlacement(ShipDirection.Left, new Coordinates(3, 1));
@@ -70,7 +70,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Board_TestDisplaysHits()
+        public void ToString_ShouldDisplayHits_WhenHitsHaveBeenApplied()
         {
             var board = new Board();
             var placement = new ShipPlacement(ShipDirection.Left, new Coordinates(3, 1));
@@ -97,7 +97,7 @@ namespace Battleship.test.Model
         [DataRow(5, 7, ShipDirection.Down, false)]
         [DataRow(2, 1, ShipDirection.Left, false)]
         [DataRow(7, 8, ShipDirection.Right, false)]
-        public void Board_TestPlaceBattleShip_InvalidLocation(int x, int y, ShipDirection shipDirection,
+        public void PlaceBattleShip_ShouldReturnFalse_WhenPlacedOnInvalidLocation(int x, int y, ShipDirection shipDirection,
             bool result)
         {
             var placement = new ShipPlacement(shipDirection, new Coordinates(x, y));
@@ -114,7 +114,7 @@ namespace Battleship.test.Model
         [DataRow(5, 7, ShipDirection.Left, true)]
         [DataRow(8, 1, ShipDirection.Left, true)]
         [DataRow(7, 5, ShipDirection.Down, true)]
-        public void Board_TestPlaceBattleShip_ValidLocation(int x, int y, ShipDirection shipDirection,
+        public void PlaceBattleShip_ShouldReturnTrus_WhenPlacedOnValidLocation(int x, int y, ShipDirection shipDirection,
             bool result)
         {
             var placement = new ShipPlacement(shipDirection, new Coordinates(x, y));
@@ -129,7 +129,7 @@ namespace Battleship.test.Model
         [DataRow(3, 4, true)]
         [DataRow(5, 3, false)]
         [DataRow(3, 5, true)]
-        public void Board_TestIsHitRegistersValidHitsAndMisses(int x, int y, bool result)
+        public void ApplyShot_ShouldRegistersValidHitsAndMisses(int x, int y, bool result)
         {
             var placement = new ShipPlacement(ShipDirection.Down, new Coordinates(3, 3));
             var battleShip = new Ship(3, "My Battleship");
@@ -143,7 +143,7 @@ namespace Battleship.test.Model
         [DataRow(9, 1, ShipDirection.Up)]
         [DataRow(1, -1, ShipDirection.Up)]
         [DataRow(1, 9, ShipDirection.Up)]
-        public void Board_Placement_XYCoordRange_Validation(int x, int y, ShipDirection shipDirection)
+        public void PlaceBattleShip_ShouldReturnFalse_WhenCoordsAreOutOfRange(int x, int y, ShipDirection shipDirection)
         {
             var battleShip = new Ship(3, "My Battleship");
             var result = _board.PlaceBattleShip(battleShip, new ShipPlacement(shipDirection, new Coordinates(x, y)), out var message);

@@ -12,6 +12,11 @@ namespace Battleship.Model
 
         private readonly IConsoleWriter _consoleWriter;
 
+        /// <summary>
+        /// Creates game player object and intializes their board
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="consoleWriter"></param>
         public Player(string playerName, IConsoleWriter consoleWriter)
         {
             _playerName = playerName;
@@ -84,7 +89,6 @@ namespace Battleship.Model
         /// <summary>
         /// Reads coords from console and converts them to a coordinate object
         /// </summary>
-        /// <returns></returns>
         public Coordinates GetShotCoords()
         {
             string message = "";

@@ -9,6 +9,10 @@ namespace Battleship.Model
 
         private readonly IConsoleWriter _consoleWriter;
 
+        /// <summary>
+        /// Game Constructor
+        /// </summary>
+        /// <param name="consoleWriter"></param>
         public Game(IConsoleWriter consoleWriter)
         {
             _consoleWriter = consoleWriter;
@@ -16,7 +20,9 @@ namespace Battleship.Model
             _player1 = new Player("Player 1", _consoleWriter);
             _player2 = new Player("Player 2", _consoleWriter);
         }
-
+        /// <summary>
+        /// intiate the game
+        /// </summary>
         public void GameStart()
         {
             WelcomeMessage();
@@ -41,7 +47,9 @@ namespace Battleship.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Displays a welcome message
+        /// </summary>
         public void WelcomeMessage()
         {
             _consoleWriter.Clear();

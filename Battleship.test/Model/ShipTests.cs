@@ -22,7 +22,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Ship_Constructor()
+        public void Constructor_ShouldInitializeToDefaultValues()
         {
             Assert.AreEqual("Battleship", testShip.Name);
             Assert.AreEqual(3, testShip.Size);
@@ -35,7 +35,7 @@ namespace Battleship.test.Model
         [DataRow(3, 1, ShipDirection.Left, 4, 1, false)]
         [DataRow(3, 1, ShipDirection.Left, 1, 2, false)]
         [DataRow(3, 1, ShipDirection.Left, 3, 2, false)]
-        public void Battleship_IsCoordInShip(int x, int y, ShipDirection direction, int i, int j, bool result)
+        public void IsCoordInShip_ShouldReturnTrue_WhenCoordIsMatchesLocation(int x, int y, ShipDirection direction, int i, int j, bool result)
         {
             var battleShip = new Ship(3, "My Battleship");
 
@@ -46,7 +46,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Battleship_IsSunkTest()
+        public void IsSunk_ShouldReturnTrue_WhenAllShipLocationsAreHit()
         {
             _testPlacement = new ShipPlacement(ShipDirection.Down, new Coordinates(6, 1));
             _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);
@@ -64,7 +64,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void Ship_ApplyShot_VerifyValidAndInvalidShots()
+        public void ApplyShot_ShouldVerifyValidAndInvalidShots()
         {
             _testPlacement = new ShipPlacement(ShipDirection.Left, new Coordinates(8, 6));
             _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);

@@ -49,7 +49,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void TestPlayerSetupInputInvalid()
+        public void SetupBoard_ShouldDisplayMessageAndRequestNewInput_ForInValidInput()
         {
             _mockConsole.SetupSequence(c => c.ReadLine())
                 .Returns("H 9 L")
@@ -62,7 +62,7 @@ namespace Battleship.test.Model
         }
 
         [TestMethod]
-        public void TestGetShotCoordsLoopsForValidInput()
+        public void ShotCoords_ShouldDisplayMessageAndRequestNewInput_ForInValidInput()
         {
             _mockConsole.SetupSequence(c => c.ReadLine())
                 .Returns("ff")

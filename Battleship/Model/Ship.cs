@@ -31,6 +31,12 @@ namespace Battleship.Model
             return _coords.Any(t => t.X == x && t.Y == y);
         }
 
+        /// <summary>
+        /// Saves a shot to the board so it can be displayed
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool ApplyShot(int x, int y)
         {
             if(IsCoordInShip(x, y))
@@ -46,7 +52,10 @@ namespace Battleship.Model
             }
             return false;
         }
-
+        /// <summary>
+        /// Calculates the real board coordinates of a placed battleship.  Needed to determine if a ship is sunk.
+        /// </summary>
+        /// <param name="placement"></param>
         public void CalculateCoords(ShipPlacement placement)
         {
             var x = placement.SternPoint.X;
