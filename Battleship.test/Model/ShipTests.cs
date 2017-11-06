@@ -29,13 +29,13 @@ namespace Battleship.test.Model
         }
 
         [DataTestMethod]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 1, 1, true)]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 3, 1, true)]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 2, 1, true)]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 4, 1, false)]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 1, 2, false)]
-        [DataRow(3, 1, Ship.ShipDirection.Left, 3, 2, false)]
-        public void Battleship_IsCoordInShip(int x, int y, Ship.ShipDirection direction, int i, int j, bool result)
+        [DataRow(3, 1, ShipDirection.Left, 1, 1, true)]
+        [DataRow(3, 1, ShipDirection.Left, 3, 1, true)]
+        [DataRow(3, 1, ShipDirection.Left, 2, 1, true)]
+        [DataRow(3, 1, ShipDirection.Left, 4, 1, false)]
+        [DataRow(3, 1, ShipDirection.Left, 1, 2, false)]
+        [DataRow(3, 1, ShipDirection.Left, 3, 2, false)]
+        public void Battleship_IsCoordInShip(int x, int y, ShipDirection direction, int i, int j, bool result)
         {
             var battleShip = new Ship(3, "My Battleship");
 
@@ -48,7 +48,7 @@ namespace Battleship.test.Model
         [TestMethod]
         public void Battleship_IsSunkTest()
         {
-            _testPlacement = new ShipPlacement(Ship.ShipDirection.Down, new Coordinates(6, 1));
+            _testPlacement = new ShipPlacement(ShipDirection.Down, new Coordinates(6, 1));
             _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);
 
             // Verify ship is not sunk as no shots have been fired
@@ -66,7 +66,7 @@ namespace Battleship.test.Model
         [TestMethod]
         public void Ship_ApplyShot_VerifyValidAndInvalidShots()
         {
-            _testPlacement = new ShipPlacement(Ship.ShipDirection.Left, new Coordinates(8, 6));
+            _testPlacement = new ShipPlacement(ShipDirection.Left, new Coordinates(8, 6));
             _testBoard.PlaceBattleShip(testShip, _testPlacement, out var message);
 
             // Valid hit coords would be (8,6),(7,6),(6,6)  

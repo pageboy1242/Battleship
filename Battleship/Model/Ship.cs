@@ -5,14 +5,6 @@ namespace Battleship.Model
 {
     public class Ship
     {
-        public enum ShipDirection
-        {
-            Up,
-            Down,
-            Left,
-            Right
-        };
-
         public Ship(int size, string name)
         {
             Size = size;

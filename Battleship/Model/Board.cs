@@ -67,10 +67,10 @@ namespace Battleship.Model
             }
 
             // Ensure Ship direction is not outside the range of the board
-            if ((placement.SternPoint.X < ship.Size && placement.Direction == Ship.ShipDirection.Left) ||
-                (placement.SternPoint.Y < ship.Size && placement.Direction == Ship.ShipDirection.Up) ||
-                (placement.SternPoint.X > (BoardWidth - ship.Size) && placement.Direction == Ship.ShipDirection.Right) ||
-                (placement.SternPoint.Y > (BoardHeight - ship.Size) && placement.Direction == Ship.ShipDirection.Down))
+            if ((placement.SternPoint.X < ship.Size && placement.Direction == ShipDirection.Left) ||
+                (placement.SternPoint.Y < ship.Size && placement.Direction == ShipDirection.Up) ||
+                (placement.SternPoint.X > (BoardWidth - ship.Size) && placement.Direction == ShipDirection.Right) ||
+                (placement.SternPoint.Y > (BoardHeight - ship.Size) && placement.Direction == ShipDirection.Down))
             {
                 message = "Ship Placement is outside of the boundaries of the board";
                 return false;

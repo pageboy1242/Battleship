@@ -7,11 +7,11 @@ namespace Battleship.test.Model
     public class InputHandlerTests
     {
         [DataTestMethod]
-        [DataRow("E 4 D", 5, 4, Ship.ShipDirection.Down)]
-        [DataRow("E 4 U", 5, 4, Ship.ShipDirection.Up)]
-        [DataRow("E 4 L", 5, 4, Ship.ShipDirection.Left)]
-        [DataRow("E 4 R", 5, 4, Ship.ShipDirection.Right)]
-        public void InputHandler_TestConvertInputToShipPlacement_HappyPath(string input, int x, int y, Ship.ShipDirection expectedShipDirection)
+        [DataRow("E 4 D", 5, 4, ShipDirection.Down)]
+        [DataRow("E 4 U", 5, 4, ShipDirection.Up)]
+        [DataRow("E 4 L", 5, 4, ShipDirection.Left)]
+        [DataRow("E 4 R", 5, 4, ShipDirection.Right)]
+        public void InputHandler_TestConvertInputToShipPlacement_HappyPath(string input, int x, int y, ShipDirection expectedShipDirection)
         {
             var placement = InputHandler.ConvertInputToShipPlacement(input, out var message);
 

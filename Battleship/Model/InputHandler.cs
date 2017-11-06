@@ -5,14 +5,22 @@ namespace Battleship.Model
 {
     public static class InputHandler
     {
+        /// <summary>
+        /// Validates and converts user input into a placement object.  Returns a message if there is an error.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="message"></param>
         public static ShipPlacement ConvertInputToShipPlacement(string input, out string message)
         {
             message = "";
             // Validate input
-            var msg = ValidatePlacementInput(input);
-            if (msg.Length != 0)
+            try
             {
-                message = msg;
+                ValidatePlacementInput(input);
+            }
+            catch (ArgumentException e)
+            {
+                message = e.Message;
                 return null;
             }
 
@@ -24,21 +32,21 @@ namespace Battleship.Model
             var x = columnChar - 64;
             var y = rowChar - 48;
 
-            Ship.ShipDirection direction;
+            ShipDirection direction;
 
             switch (directionChar)
             {
                 case 'U':
-                    direction = Ship.ShipDirection.Up;
+                    direction = ShipDirection.Up;
                     break;
                 case 'D':
-                    direction = Ship.ShipDirection.Down;
+                    direction = ShipDirection.Down;
                     break;
                 case 'L':
-                    direction = Ship.ShipDirection.Left;
+                    direction = ShipDirection.Left;
                     break;
                 case 'R':
-                    direction = Ship.ShipDirection.Right;
+                    direction = ShipDirection.Right;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(input), "Direction must be one of 'U','D','L', or 'R'");
@@ -51,35 +59,35 @@ namespace Battleship.Model
         /// Validate the user input to place a ship ([A-H] [1-8] [U,D,L,R])
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
-        private static string ValidatePlacementInput(string input)
+        private static void ValidatePlacementInput(string input)
         {
-            var message = "";
-
             // TODO: Build this dynamically based on the size of the board
-            var regex = @"^[A-H] [1-8] [U,D,L,R]$";
 
-            Match match = Regex.Match(input, regex);
+            var match = Regex.Match(input, @"^[A-H] [1-8] [U,D,L,R]$");
 
             if (!match.Success)
             {
-                message = "Please enter coordinates using the following rules [A-H] [1-8] [U,D,L,R] (Eg. 'B 2 R').";
+                throw new ArgumentException("Please enter coordinates using the following rules [A-H] [1-8] [U,D,L,R] (Eg. 'B 2 R').");
             }
-
-            return message;
         }
-
+        /// <summary>
+        /// Validates and converts user input into shot coordinates.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="message"></param>
         public static Coordinates ConvertInputToCoordinates(string input, out string message)
         {
             message = "";
             // Validate input
-            var msg = ValidateCoordinateInput(input);
-            if (msg.Length != 0)
+            try
             {
-                message = msg;
+                ValidateCoordinateInput(input);
+            }
+            catch (ArgumentException e)
+            {
+                message = e.Message;
                 return null;
             }
-
             var columnChar = input[0];
             var rowChar = input[2];
 
@@ -89,20 +97,15 @@ namespace Battleship.Model
             return new Coordinates(x, y);
         }
 
-        private static string ValidateCoordinateInput(string input)
+        private static void ValidateCoordinateInput(string input)
         {
-            var message = "";
-
-            var regex = @"^[A-H] [1-8]";
-
-            Match match = Regex.Match(input, regex);
+            var match = Regex.Match(input, @"^[A-H] [1-8]");
 
             if (!match.Success)
             {
-                message = "Please enter coordinates using the following rules [A-H] [1-8] (Eg. 'B 2').";
+                throw new ArgumentException(
+                    "Please enter coordinates using the following rules [A-H] [1-8] (Eg. 'B 2').");
             }
-
-            return message;
         }
     }
 }
