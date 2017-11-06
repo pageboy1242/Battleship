@@ -10,7 +10,7 @@
 2. Open the solution in Visual Studio 2017
 3. Build
 4. Open a Command Prompt (CMD)
-5. Navigate to the Solution folder directory created in step 1
+5. Navigate to the Solution folder/Battleship directory created in step 1
 6. Run command 'dotnet run'
 
 ## Running the Unit Tests

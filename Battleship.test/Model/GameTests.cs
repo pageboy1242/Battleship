@@ -11,16 +11,7 @@ namespace Battleship.test.Model
         private readonly Mock<IConsoleWriter> _mockConsole = new Mock<IConsoleWriter>();
         private Game _game;
 
-        private readonly string _boardStringWithBattleShip1 =
-            "\t \tA\tB\tC\tD\tE\tF\tG\tH\n" +
-            "\t1\t \t \t \t \t \t \t \t \n" +
-            "\t2\t \t \t \t \t \t \t \t \n" +
-            "\t3\t \t \t \t \t \t \t \t \n" +
-            "\t4\t \t \t \t \t \t \t \t \n" +
-            "\t5\t \t \t \t \t \t \t \t \n" +
-            "\t6\t \t \t \t \t \t \t \t \n" +
-            "\t7\t \t \t \t \t \t \t \t \n" +
-            "\t8\t \t \t \t \t \tO\tO\tO\n";
+       
 
         [TestInitialize]
         public void SetUp()
@@ -37,28 +28,7 @@ namespace Battleship.test.Model
             _mockConsole.Verify(c => c.WriteLine("Welcome to Battleship\n"));
         }
 
-        [TestMethod]
-        public void Game_TestPlayerSetup()
-        {
-            _mockConsole.Setup(c => c.ReadLine()).Returns("F 8 R");
-
-            _game.PlayerBoardSetup("Test Player", new Board());
-
-            _mockConsole.Verify(c => c.Write(_boardStringWithBattleShip1));
-        }
-
-        [TestMethod]
-        public void Game_TestPlayerSetupInputInvalid()
-        {
-            _mockConsole.SetupSequence(c => c.ReadLine())
-                .Returns("H 9 L")
-                .Returns("F 8 R");
-
-            _game.PlayerBoardSetup("Test Player", new Board());
-
-            _mockConsole.Verify(c => c.WriteLine("Please enter coordinates using the following rules [A-H] [1-8] [U,D,L,R] (Eg. 'B 2 R')."));
-            _mockConsole.Verify(c => c.Write(_boardStringWithBattleShip1));
-        }
+        
 
         [TestMethod]
         public void Game_TestGameStart_Player1Wins()
@@ -95,23 +65,6 @@ namespace Battleship.test.Model
             _game.GameStart();
 
             _mockConsole.Verify(c => c.WriteLine("Player 1 yells 'You sank my battleship!!'"));
-        }
-
-        [TestMethod]
-        public void Game_TestGetShotCoordsLoopsForValidInput()
-        {
-            _mockConsole.SetupSequence(c => c.ReadLine())
-                .Returns("ff")
-                .Returns("A1")
-                .Returns("A 1");
-
-           var shotCoords = _game.GetShotCoords();
-
-            _mockConsole.Verify(c =>
-                c.WriteLine("Please enter coordinates using the following rules [A-H] [1-8] (Eg. 'B 2')."));
-
-            Assert.AreEqual(1, shotCoords.X);
-            Assert.AreEqual(1, shotCoords.Y);
         }
     }
 }
